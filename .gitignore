@@ -1,3 +1,5 @@
 model.sdf
 model.config
 *.stl
+**/build
+**/devel
