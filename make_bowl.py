@@ -65,7 +65,10 @@ class BowlGenerator:
         self.out_gazebo_dir = out_gazebo_dir
 
         os.makedirs(self.out_gazebo_dir, exist_ok=True)
-        os.makedirs(os.path.join(self.out_gazebo_dir, "meshes"), exist_ok=True)
+        os.makedirs(
+            os.path.join(self.out_gazebo_dir, f"{self.model_name}", "meshes"),
+            exist_ok=True,
+        )
 
     def gen_bottom_plate_stl(self):
         theta = np.hstack([np.arange(0, 2.0 * np.pi, 2.0 * np.pi / self.N), 0.0])
@@ -139,7 +142,12 @@ class BowlGenerator:
             os.path.join(self.out_mujoco_dir, "meshes", f"{self.model_name}_bottom.stl")
         )
         model_mesh.save(
-            os.path.join(self.out_gazebo_dir, "meshes", f"{self.model_name}_bottom.stl")
+            os.path.join(
+                self.out_gazebo_dir,
+                f"{self.model_name}",
+                "meshes",
+                f"{self.model_name}_bottom.stl",
+            )
         )
 
     def gen_side_fragment_stl(self):
@@ -204,7 +212,10 @@ class BowlGenerator:
         )
         model_mesh.save(
             os.path.join(
-                self.out_gazebo_dir, "meshes", f"{self.model_name}_fragment.stl"
+                self.out_gazebo_dir,
+                f"{self.model_name}",
+                "meshes",
+                f"{self.model_name}_fragment.stl",
             )
         )
 
@@ -216,7 +227,10 @@ class BowlGenerator:
   <sdf version="1.7">model.sdf</sdf>
 </model>
 """
-        with open(os.path.join(self.out_gazebo_dir, "model.config"), mode="w") as f:
+        with open(
+            os.path.join(self.out_gazebo_dir, f"{self.model_name}", "model.config"),
+            mode="w",
+        ) as f:
             f.write(CONTENTS)
 
     def gen_model_sdf(self):
@@ -275,10 +289,14 @@ class BowlGenerator:
             "      </visual>",
             "    </link>",
             *fragments,
-            "  </model>" "</sdf>",
+            "  </model>",
+            "</sdf>",
         ]
 
-        with open(os.path.join(self.out_gazebo_dir, "model.sdf"), mode="w") as f:
+        with open(
+            os.path.join(self.out_gazebo_dir, f"{self.model_name}", "model.sdf"),
+            mode="w",
+        ) as f:
             f.write("\n".join(lines) + "\n")
 
     def gen_model_mujoco_xml(self):
