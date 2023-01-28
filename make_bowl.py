@@ -314,7 +314,7 @@ class BowlGenerator:
             "<mujoco>",
             '  <body name="bowl" pos="0 0 0.1">',
             f'    <!-- <geom name="geom_bowl_bottom0" type="mesh" mesh="{self.model_name}_bottom" pos="0 0 0" euler="0 0 0" /> -->',
-            f'    <geom name="geom_bowl_bottom0" type="ellipsoid" size="{self.radius_bottom} {self.radius_bottom} 0.01" pos="0 0 0" />',
+            f'    <geom name="geom_bowl_bottom0" type="ellipsoid" size="{self.radius_bottom} {self.radius_bottom} 0.01" pos="0 0 {self.thickness}" />',
             *fragments,
             "  </body>",
             "</mujoco>",
