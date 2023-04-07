@@ -64,6 +64,8 @@ class BowlGenerator:
         self.out_mujoco_dir = out_mujoco_dir
         self.out_gazebo_dir = out_gazebo_dir
 
+        os.makedirs(os.path.join(self.out_mujoco_dir, "xmls"), exist_ok=True)
+        os.makedirs(os.path.join(self.out_mujoco_dir, "meshes"), exist_ok=True)
         os.makedirs(self.out_gazebo_dir, exist_ok=True)
         os.makedirs(
             os.path.join(self.out_gazebo_dir, f"{self.model_name}", "meshes"),
