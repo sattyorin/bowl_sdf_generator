@@ -65,6 +65,7 @@ class BowlGenerator:
         self.out_gazebo_dir = out_gazebo_dir
 
         os.makedirs(os.path.join(self.out_mujoco_dir, "xmls"), exist_ok=True)
+        os.makedirs(os.path.join(self.out_mujoco_dir, "xmls", "tools"), exist_ok=True)
         os.makedirs(os.path.join(self.out_mujoco_dir, "meshes"), exist_ok=True)
         os.makedirs(self.out_gazebo_dir, exist_ok=True)
         os.makedirs(
@@ -75,7 +76,7 @@ class BowlGenerator:
     def gen_bottom_plate_stl(self):
         theta = np.hstack([np.arange(0, 2.0 * np.pi, 2.0 * np.pi / self.N), 0.0])
 
-        center = np.zeros(2)
+        # center = np.zeros(2)
         circle_points = np.vstack(
             [
                 self.radius_bottom * np.cos(theta),
@@ -314,16 +315,17 @@ class BowlGenerator:
         lines = [
             '<?xml version="1.0"?>',
             "<mujoco>",
-            '  <body name="bowl" pos="0 0 0.1">',
+            f'  <body name="bowl" pos="0 0 -{self.thickness}">',
             f'    <!-- <geom name="geom_bowl_bottom0" type="mesh" mesh="{self.model_name}_bottom" pos="0 0 0" euler="0 0 0" /> -->',
-            f'    <geom name="geom_bowl_bottom0" type="ellipsoid" size="{self.radius_bottom} {self.radius_bottom} 0.01" pos="0 0 {self.thickness}" />',
+            f'    <!-- <geom name="geom_bowl_bottom0" type="ellipsoid" size="{self.radius_bottom} {self.radius_bottom} 0.01" pos="0 0 {self.thickness}" /> -->',
             *fragments,
             "  </body>",
             "</mujoco>",
         ]
 
         with open(
-            os.path.join(self.out_mujoco_dir, "xmls", "stir_bowl.xml"), mode="w"
+            os.path.join(self.out_mujoco_dir, "xmls", "tools", "bowl.xml"),
+            mode="w",
         ) as f:
             f.write("\n".join(lines) + "\n")
 
